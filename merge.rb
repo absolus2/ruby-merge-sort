@@ -65,3 +65,29 @@ def insertion(array, element)
   end
 end
 
+# quickstory take array return a sorted array
+def quicksort(array)
+  # if array is less than 2 assume is sorted
+  return array if array.length < 2
+  # swap marker
+  sm = array.length - 1
+  # change the pivot to the last position, in this case pivot is index of half the array.
+  array[array.length/2 - 1], array[-1] = array[-1], array[array.length/2 -1]
+  # sort the array
+  array.each_with_index do |item, index| 
+    if item >= array.last
+      until sm < index || array[sm] < array.last
+        sm -= 1
+      end
+      if sm < index
+        array[-1], array[index] = array[index], array[-1]
+      elsif array[sm] < array.last
+        array[sm], array[index] = array[index], array[sm]
+      end
+    end
+  end
+  # Partition the array left and right.
+  left, right = quicksort(array[0..array.length/2 - 1]), quicksort(array[array.length/2..-1])
+  # merge the both halfs
+  return merge(left, right)
+end
